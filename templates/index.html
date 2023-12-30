@@ -1,0 +1,53 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Reminder</title>
+</head>
+<body>
+<h1>Birthday Reminder</h1>
+<script>
+    function submitToAPI() {
+        var URL = "https://hsw2jcbtqe.execute-api.us-east-2.amazonaws.com/prod/register";
+        var name = $("#name").val();
+        var dob = $("#date").val();
+
+        var data = {
+            name : name,
+            dob : dob
+        };
+
+        $.ajax({
+            type: "POST",
+            url : URL,
+            dataType: "json",
+            crossDomain: "true",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(data),
+
+
+            success: function () {
+                // clear form and show a success message
+                alert("Successfull");
+                document.getElementById("birthday-info").reset();
+                location.reload();
+            },
+            error: function () {
+                // show an error message
+                alert("UnSuccessfull");
+            }});
+    }
+</script>
+<form id="birthday-info" method="post">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+    <label for="date">Birthdate:</label>
+    <input type="date" id="date" name="date" required>
+    <button type="button" onClick="submitToAPI()">Set Reminder</button>
+</form>
+</body>
+</html>
