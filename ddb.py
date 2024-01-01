@@ -38,6 +38,7 @@ def query_birthday_reminders(date: str) -> List[Dict]:
     :param date: birthday date
     :return: list of birthday reminders
     """
+    # TODO handle LastEvalKey
     response = client.query(
         TableName="reminders",
         Select="ALL_ATTRIBUTES",

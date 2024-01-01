@@ -18,6 +18,9 @@ def lambda_handler(event, context):
 
 
 if __name__ == "__main__":
+    """
+    main block for local testing
+    """
     _ = {
         "name": "Sophi",
         "dob": "06-14-1987"
