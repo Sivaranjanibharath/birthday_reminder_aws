@@ -2,6 +2,8 @@ import json
 from datetime import date
 from ddb import query_birthday_reminders
 from typing import Dict
+from sns_publish import publish_reminder_message
+
 """
 This lambda function is invoked by AWS event bridge on a schedule(once every day).
 Upon trigger, this lambda queries birthdays that occur today(lamda invocation date) and then sends notification
@@ -20,9 +22,10 @@ def bd_reminder_lambda_handler(event: Dict, context: Dict) -> None:
     print(json.dumps(event))
     reminder_date = str(date.today())
     print(f"Fetching reminder for {reminder_date}")
-    query_birthday_reminders(reminder_date)
+    r = query_birthday_reminders(reminder_date)
+    publish_reminder_message(r)
 
 
 if __name__ == "__main__":
-    bd_reminder_lambda_handler(None, None)
+     bd_reminder_lambda_handler(None, None)
 
