@@ -1,3 +1,4 @@
+import os
 import boto3
 from typing import List, Dict
 #from ddb import query_birthday_reminders
@@ -8,12 +9,20 @@ This module contains function that helps publish to SNS topic.
 
 
 def publish_reminder_message(reminders_list: List[Dict]):
+    """
+    This is a function that accepts list of dictionaries that contains name and dob.Then it uses name and
+    dob to compile a message for SNS topic that it then publishes.
+    :return: none
+    """
+    birthday_reminder_sns_publish_arn = os.getenv("BIRTHDAY_REMINDER_SNS")
+    # Initialize boto3 client using the default AWS credential profile (ie) you should run aws configure and provide
+    # the aws secret and access key for the IAM users with sns publish permissions
     client = boto3.client('sns')
     for reminder in reminders_list:
         name = reminder["name"]
         dob = reminder["dob"]
         response = client.publish(
-            TopicArn="arn:aws:sns:us-east-2:900147746437:birthday_reminder_sns",
+            TopicArn=birthday_reminder_sns_publish_arn,
             Message=f'Hey!!This is a birthday reminder for {name} on {dob} ',
             Subject=f'birthday reminder for {name}'
         )
